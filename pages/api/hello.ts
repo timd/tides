@@ -16,5 +16,5 @@ export default function handler(
     res.status(200).json(response.data.items[0].value);  
     console.log(response.data);
   });
-  
+    
 }
