@@ -1,4 +1,4 @@
-import { Tide, extractTides, determineTrend } from './jsonParser';
+import { Tide, extractTides, determineTrend, generateData } from './jsonParser';
 
 const sourceJSON = [
   {
@@ -136,6 +136,163 @@ describe('When calculating trend', () => {
 
     const trend = determineTrend(tides);
     expect(trend).toBe('turning');
+  });
+
+});
+
+describe('When creating the data', () => {
+
+  it('should get the height correctly when parsing positive heights', () => {
+
+    const srcJson = [
+      {
+        "@id": "http://environment.data.gov.uk/flood-monitoring/data/readings/E73639-anglian-level-tidal_level-Mean-15_min-mAOD/2022-07-02T10-30-00Z",
+        "dateTime": "2022-07-02T10:30:00Z",
+        "measure": "http://environment.data.gov.uk/flood-monitoring/id/measures/E73639-anglian-level-tidal_level-Mean-15_min-mAOD",
+        "value": 0.072
+      },
+      {
+        "@id": "http://environment.data.gov.uk/flood-monitoring/data/readings/E73639-anglian-level-tidal_level-Mean-15_min-mAOD/2022-07-02T10-15-00Z",
+        "dateTime": "2022-07-02T10:15:00Z",
+        "measure": "http://environment.data.gov.uk/flood-monitoring/id/measures/E73639-anglian-level-tidal_level-Mean-15_min-mAOD",
+        "value": -0.286
+      }
+    ];
+
+    let gen = generateData(srcJson);
+    expect(gen.height).toBe(0.072);
+
+  });
+
+  it('should get the height correctly when parsing negative heights', () => {
+
+    const srcJson = [
+      {
+        "@id": "http://environment.data.gov.uk/flood-monitoring/data/readings/E73639-anglian-level-tidal_level-Mean-15_min-mAOD/2022-07-02T10-30-00Z",
+        "dateTime": "2022-07-02T10:30:00Z",
+        "measure": "http://environment.data.gov.uk/flood-monitoring/id/measures/E73639-anglian-level-tidal_level-Mean-15_min-mAOD",
+        "value": -0.072
+      },
+      {
+        "@id": "http://environment.data.gov.uk/flood-monitoring/data/readings/E73639-anglian-level-tidal_level-Mean-15_min-mAOD/2022-07-02T10-15-00Z",
+        "dateTime": "2022-07-02T10:15:00Z",
+        "measure": "http://environment.data.gov.uk/flood-monitoring/id/measures/E73639-anglian-level-tidal_level-Mean-15_min-mAOD",
+        "value": -0.286
+      }
+    ];
+
+    let gen = generateData(srcJson);
+    expect(gen.height).toBe(0.072);
+
+  });
+
+  it('should get the relative correctly when height is positive', () => {
+    const srcJson = [
+      {
+        "@id": "http://environment.data.gov.uk/flood-monitoring/data/readings/E73639-anglian-level-tidal_level-Mean-15_min-mAOD/2022-07-02T10-30-00Z",
+        "dateTime": "2022-07-02T10:30:00Z",
+        "measure": "http://environment.data.gov.uk/flood-monitoring/id/measures/E73639-anglian-level-tidal_level-Mean-15_min-mAOD",
+        "value": 0.072
+      },
+      {
+        "@id": "http://environment.data.gov.uk/flood-monitoring/data/readings/E73639-anglian-level-tidal_level-Mean-15_min-mAOD/2022-07-02T10-15-00Z",
+        "dateTime": "2022-07-02T10:15:00Z",
+        "measure": "http://environment.data.gov.uk/flood-monitoring/id/measures/E73639-anglian-level-tidal_level-Mean-15_min-mAOD",
+        "value": -0.286
+      }
+    ];
+  
+    let gen = generateData(srcJson);
+    expect(gen.relative).toBe('above');
+
+  });
+
+  it('should get the relative correctly when height is negative', () => {
+    
+    const srcJson = [
+      {
+        "@id": "http://environment.data.gov.uk/flood-monitoring/data/readings/E73639-anglian-level-tidal_level-Mean-15_min-mAOD/2022-07-02T10-30-00Z",
+        "dateTime": "2022-07-02T10:30:00Z",
+        "measure": "http://environment.data.gov.uk/flood-monitoring/id/measures/E73639-anglian-level-tidal_level-Mean-15_min-mAOD",
+        "value": -0.072
+      },
+      {
+        "@id": "http://environment.data.gov.uk/flood-monitoring/data/readings/E73639-anglian-level-tidal_level-Mean-15_min-mAOD/2022-07-02T10-15-00Z",
+        "dateTime": "2022-07-02T10:15:00Z",
+        "measure": "http://environment.data.gov.uk/flood-monitoring/id/measures/E73639-anglian-level-tidal_level-Mean-15_min-mAOD",
+        "value": -0.286
+      }
+    ];
+  
+    let gen = generateData(srcJson);
+    expect(gen.relative).toBe('below');
+
+  });
+
+  it('should get the trend correctly when trend is rising', () => {
+
+    const srcJson = [
+      {
+        "@id": "http://environment.data.gov.uk/flood-monitoring/data/readings/E73639-anglian-level-tidal_level-Mean-15_min-mAOD/2022-07-02T10-30-00Z",
+        "dateTime": "2022-07-02T10:30:00Z",
+        "measure": "http://environment.data.gov.uk/flood-monitoring/id/measures/E73639-anglian-level-tidal_level-Mean-15_min-mAOD",
+        "value": 3
+      },
+      {
+        "@id": "http://environment.data.gov.uk/flood-monitoring/data/readings/E73639-anglian-level-tidal_level-Mean-15_min-mAOD/2022-07-02T10-15-00Z",
+        "dateTime": "2022-07-02T10:15:00Z",
+        "measure": "http://environment.data.gov.uk/flood-monitoring/id/measures/E73639-anglian-level-tidal_level-Mean-15_min-mAOD",
+        "value": 2
+      }
+    ];
+  
+    let gen = generateData(srcJson);
+    expect(gen.trend).toBe('rising');
+
+  });
+
+  it('should get the trend correctly when trend is falling', () => {
+
+    const srcJson = [
+      {
+        "@id": "http://environment.data.gov.uk/flood-monitoring/data/readings/E73639-anglian-level-tidal_level-Mean-15_min-mAOD/2022-07-02T10-30-00Z",
+        "dateTime": "2022-07-02T10:30:00Z",
+        "measure": "http://environment.data.gov.uk/flood-monitoring/id/measures/E73639-anglian-level-tidal_level-Mean-15_min-mAOD",
+        "value": 2
+      },
+      {
+        "@id": "http://environment.data.gov.uk/flood-monitoring/data/readings/E73639-anglian-level-tidal_level-Mean-15_min-mAOD/2022-07-02T10-15-00Z",
+        "dateTime": "2022-07-02T10:15:00Z",
+        "measure": "http://environment.data.gov.uk/flood-monitoring/id/measures/E73639-anglian-level-tidal_level-Mean-15_min-mAOD",
+        "value": 3
+      }
+    ];
+  
+    let gen = generateData(srcJson);
+    expect(gen.trend).toBe('falling');
+
+  });
+
+  it('should get the trend correctly when trend is turning', () => {
+
+    const srcJson = [
+      {
+        "@id": "http://environment.data.gov.uk/flood-monitoring/data/readings/E73639-anglian-level-tidal_level-Mean-15_min-mAOD/2022-07-02T10-30-00Z",
+        "dateTime": "2022-07-02T10:30:00Z",
+        "measure": "http://environment.data.gov.uk/flood-monitoring/id/measures/E73639-anglian-level-tidal_level-Mean-15_min-mAOD",
+        "value": 3
+      },
+      {
+        "@id": "http://environment.data.gov.uk/flood-monitoring/data/readings/E73639-anglian-level-tidal_level-Mean-15_min-mAOD/2022-07-02T10-15-00Z",
+        "dateTime": "2022-07-02T10:15:00Z",
+        "measure": "http://environment.data.gov.uk/flood-monitoring/id/measures/E73639-anglian-level-tidal_level-Mean-15_min-mAOD",
+        "value": 3
+      }
+    ];
+  
+    let gen = generateData(srcJson);
+    expect(gen.trend).toBe('turning');
+
   });
 
 });

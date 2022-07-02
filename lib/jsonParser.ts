@@ -28,3 +28,19 @@ export function determineTrend(tides: Array<Tide>): string {
   return 'falling';
 
 }
+
+export function generateData(sourceJSON: Array<any>) {
+
+  const tides = extractTides(sourceJSON);
+
+  const height = Math.abs(tides[0].depth);
+  const relative = tides[0].depth > 0 ? "above" : "below";
+  const trend = determineTrend(tides);
+
+  return {
+    height: height,
+    relative: relative,
+    trend : trend,
+  };
+  
+}
