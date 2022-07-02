@@ -1,4 +1,4 @@
-import getTidesData from "../lib/tides"
+import { ITideObject, getTidesData } from "../lib/tides"
 
 const Home = ({ tides }: { tides: ITideObject }) => {
     if (!tides) {

@@ -1,25 +1,24 @@
-import { getApiData } from "./apiClient";
-import { generateData } from "./jsonParser";
+import { getApiData } from "./apiClient"
+import { generateData } from "./jsonParser"
 
 export interface ITideObject {
-  height: number
-  relative: string
-  trend: string
+    height: number
+    relative: string
+    trend: string
 }
 
-export default async function getTidesData(): Promise<ITideObject> {
+export async function getTidesData(): Promise<ITideObject> {
+    // Get api data
+    const apiData = await getApiData()
 
-  // Get api data
-  const apiData = await getApiData();
+    if (apiData.err)
+        return {
+            height: 0.0,
+            relative: "XXX",
+            trend: "XXX",
+        }
 
-  if (apiData.err) return {
-    height: 0.00,
-    relative: "XXX",
-    trend : "XXX"
-  }
+    const data = generateData(apiData.data)
 
-  const data = generateData(apiData.data);
-
-  return Promise.resolve(data);
-
+    return Promise.resolve(data)
 }
