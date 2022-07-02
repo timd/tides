@@ -1,14 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next"
+import { ApiData, getApiData } from "../../lib/apiClient"
 
-type Data = {
-    height: number
-    relative: string
-    trend: string
-}
-
-export default function handler(
+export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse<Data>
+    res: NextApiResponse<ApiData>
 ) {
     const data = {
         height: 1.23,
@@ -16,5 +11,7 @@ export default function handler(
         trend: "rising",
     }
 
-    return data
+    const result = await getApiData()
+
+    res.status(200).json(result)
 }
