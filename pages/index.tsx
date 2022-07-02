@@ -8,10 +8,10 @@ const Home = ({ tides }: { tides: ITideObject }) => {
     return (
         <div id="main">
             <p>
-                The tide at St Bees is <strong>{tides.height}</strong>m{" "}
+                The tide at <strong>St Bees</strong> is currently 
             </p>
             <p>
-                <strong>{tides.relative}</strong> the mean
+                <strong>{tides.height}</strong> metres{" "} <strong>{tides.relative}</strong> the mean
             </p>
             <p>
                 and is <strong>{tides.trend}</strong>

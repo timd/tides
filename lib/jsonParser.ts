@@ -23,9 +23,9 @@ export function determineTrend(tides: Array<Tide>): string {
 
   if (delta == 0) return 'turning';
   
-  if (delta > 0) return 'rising';
+  if (delta > 0) return 'coming in';
 
-  return 'falling';
+  return 'going out';
 
 }
 
@@ -33,7 +33,7 @@ export function generateData(sourceJSON: Array<any>) {
 
   const tides = extractTides(sourceJSON);
 
-  const height = Math.abs(tides[0].depth);
+  const height = Math.abs(tides[0].depth).toFixed(2);
   const relative = tides[0].depth > 0 ? "above" : "below";
   const trend = determineTrend(tides);
 

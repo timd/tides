@@ -19,7 +19,7 @@ export default function Header() {
                 </div>
             </div>
             <header id="header">
-                <h1>Tides</h1>
+                {/* <h1>Tides</h1> */}
             </header>
         </>
     )
