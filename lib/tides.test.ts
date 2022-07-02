@@ -39,14 +39,14 @@ describe("The API client", () => {
 
         mockedAxios.get.mockImplementationOnce(() =>
             Promise.resolve(mockResponse)
-        )
+        );
 
-        const data = await getTidesData()
+        const data = await getTidesData();
 
-        expect(data.height).toBe(2.0)
-        expect(data.trend).toBe("rising")
-        expect(data.relative).toBe("above")
-        await expect(mockedAxios.get).toBeCalledTimes(1)
+        expect(data.height).toBe("2.00");
+        expect(data.trend).toBe("coming in");
+        expect(data.relative).toBe("above");
+        await expect(mockedAxios.get).toBeCalledTimes(1);
     })
 
     it("should handle an error nicely", async () => {
@@ -64,7 +64,7 @@ describe("The API client", () => {
         mockedAxios.get.mockRejectedValueOnce(new Error(message))
 
         const data = await getTidesData()
-        expect(data.height).toBe(0)
+        expect(data.height).toBe("0.0")
         expect(data.trend).toBe("XXX")
         expect(data.relative).toBe("XXX")
         await expect(mockedAxios.get).toBeCalledTimes(1)

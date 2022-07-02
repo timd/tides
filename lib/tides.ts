@@ -2,7 +2,7 @@ import { getApiData } from "./apiClient"
 import { generateData } from "./jsonParser"
 
 export interface ITideObject {
-    height: number
+    height: string
     relative: string
     trend: string
 }
@@ -13,7 +13,7 @@ export async function getTidesData(): Promise<ITideObject> {
 
     if (apiData.err)
         return {
-            height: 0.0,
+            height: "0.0",
             relative: "XXX",
             trend: "XXX",
         }

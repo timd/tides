@@ -65,7 +65,7 @@ describe('When calculating trend', () => {
     ];
 
     const trend = determineTrend(tides);
-    expect(trend).toBe('rising');
+    expect(trend).toBe('coming in');
 
   });
 
@@ -83,7 +83,7 @@ describe('When calculating trend', () => {
     ];
 
     const trend = determineTrend(tides);
-    expect(trend).toBe('rising');
+    expect(trend).toBe('coming in');
     
   });
 
@@ -101,7 +101,7 @@ describe('When calculating trend', () => {
     ];
 
     const trend = determineTrend(tides);
-    expect(trend).toBe('falling');
+    expect(trend).toBe('going out');
   });
 
   it('should determine the trend correctly when the tide is falling from a negative height', () => {
@@ -118,7 +118,7 @@ describe('When calculating trend', () => {
     ];
 
     const trend = determineTrend(tides);
-    expect(trend).toBe('falling');
+    expect(trend).toBe('going out');
   });
 
   it('should determine the trend correctly when the tide is turning with a positive height', () => {
@@ -160,7 +160,7 @@ describe('When creating the data', () => {
     ];
 
     let gen = generateData(srcJson);
-    expect(gen.height).toBe(0.072);
+    expect(gen.height).toBe("0.07");
 
   });
 
@@ -182,7 +182,7 @@ describe('When creating the data', () => {
     ];
 
     let gen = generateData(srcJson);
-    expect(gen.height).toBe(0.072);
+    expect(gen.height).toBe("0.07");
 
   });
 
@@ -247,7 +247,7 @@ describe('When creating the data', () => {
     ];
   
     let gen = generateData(srcJson);
-    expect(gen.trend).toBe('rising');
+    expect(gen.trend).toBe('coming in');
 
   });
 
@@ -269,7 +269,7 @@ describe('When creating the data', () => {
     ];
   
     let gen = generateData(srcJson);
-    expect(gen.trend).toBe('falling');
+    expect(gen.trend).toBe('going out');
 
   });
 

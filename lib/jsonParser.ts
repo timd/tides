@@ -5,7 +5,7 @@ export interface Tide {
 
 export function extractTides(sourceJSON: Array<any>): Array<Tide> {
 
-  const returnArray = new Array<Tide>;
+  const returnArray = new Array<Tide>();
 
   for (let element of sourceJSON) {
     returnArray.push({
