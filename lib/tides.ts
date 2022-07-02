@@ -1,4 +1,4 @@
-export default function getTidesData() {
+export default async function getTidesData() {
 
   const data = {
     height: 1.23,
@@ -6,6 +6,6 @@ export default function getTidesData() {
     trend : "rising"
   }
 
-  return data;
+  return Promise.resolve(data);
 
 }
