@@ -14,7 +14,10 @@ const Home = ({ tides }: { tides: ITideObject }) => {
                 <strong>{tides.height}</strong> metres{" "} <strong>{tides.relative}</strong> the mean
             </p>
             <p>
-                and is <strong>{tides.trend}</strong>
+                and is <strong>{tides.trend}</strong>.
+            </p>
+            <p>
+                {tides.dogTrend.prefix} <strong>{tides.dogTrend.action}</strong> {tides.dogTrend.suffix} 
             </p>
         </div>
     )

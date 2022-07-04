@@ -1,3 +1,5 @@
+import { IDogTrendObject } from "./tides";
+
 export interface Tide {
   time: string;
   depth: number;
@@ -36,11 +38,52 @@ export function generateData(sourceJSON: Array<any>) {
   const height = Math.abs(tides[0].depth).toFixed(2);
   const relative = tides[0].depth > 0 ? "above" : "below";
   const trend = determineTrend(tides);
+  const dogTrend = determineDogTrend(trend, tides[0].depth);
 
   return {
     height: height,
     relative: relative,
     trend : trend,
+    dogTrend: dogTrend
   };
+  
+}
+
+export function determineDogTrend(trend: string, depth: number): IDogTrendObject {
+
+  if (trend == 'going out') {
+
+    if (depth > 2) {
+      return {
+        prefix: "It's",
+        action: "not worth",
+        suffix: "setting off yet"
+      }
+      
+    } else {
+      return {
+        prefix: "There's",
+        action: "plenty of time",
+        suffix: "to walk the dog"
+      }
+    }
+
+  } else {
+
+    if (depth > 0) {
+      return {
+        prefix: "There's",
+        action: "not enough time",
+        suffix: "to walk the dog"
+      }
+    } else {
+      return {
+        prefix: "There's",
+        action: "still enough time",
+        suffix: "to walk the dog"
+      }
+    }
+
+  }
   
 }
