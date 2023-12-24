@@ -1,5 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from "next"
 import { ApiData, getApiData } from "../../lib/apiClient"
+import type { NextApiRequest, NextApiResponse } from "next"
 
 export default async function handler(
     req: NextApiRequest,
